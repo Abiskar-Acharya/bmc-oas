@@ -1,0 +1,159 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+    <div class="col-md-6">
+    <h5 class="card-title fw-semibold mb-4">Add Test</h5>
+<form class="row"  method="POST">
+  {{ form.csrf_token }}
+  <div class="col-md-6 mb-3">
+      {{form.test_name.label(class="form-label")}}
+      {{form.test_name(class="form-control")}}
+      {% if form.test_name.errors %}
+      {% for error in form.test_name.errors %}
+          <p class="text-danger">{{ error }}</p>
+      {% endfor %}   
+      {% endif %}
+    </div>
+      
+    <div class="col-md-6">
+      {{form.test_code.label(class="form-label")}}
+      {{form.test_code(class="form-control")}}
+      {% if form.test_code.errors %}
+      {% for error in form.test_code.errors %}
+          <p class="text-danger">{{ error }}</p>
+      {% endfor %}   
+    {% endif %} 
+      </div>
+      
+    <div class="col-md-6">
+      {{form.subject.label(class="form-label")}}
+      {{form.subject(class="form-control")}}
+      {% if form.subject.errors %}
+      {% for error in form.subject.errors %}
+          <p class="text-danger">{{ error }}</p>
+      {% endfor %}   
+      {% endif %} 
+    </div> 
+    
+   
+    <div class="col-md-6">
+      {{form.date.label(class="form-label")}}
+      {{form.date(class="form-control")}}
+      {% if form.date.errors %}
+      {% for error in form.date.errors %}
+          <p class="text-danger">{{ error }}</p>
+      {% endfor %}   
+      {% endif %} 
+    </div>
+   
+    <div class="col-md-6">
+      {{form.time.label(class="form-label")}}
+      {{form.time(class="form-control")}}
+      {% if form.time.errors %}
+      {% for error in form.time.errors %}
+          <p class="text-danger">{{ error }}</p>
+      {% endfor %}   
+      {% endif %} 
+    </div>
+   
+    <div class="col-md-6">
+      {{form.duration.label(class="form-label")}}
+      {{form.duration(class="form-control")}} 
+      {% if form.duration.errors %}
+      {% for error in form.duration.errors %}
+          <p class="text-danger">{{ error }}</p>
+      {% endfor %}   
+      {% endif %} 
+      </div>
+    
+      <div class="col-md-6 mb-3">
+        {{form.total_q.label(class="form-label")}}
+        {{form.total_q(class="form-control")}}
+        {% if form.total_q.errors %}
+        {% for error in form.total_q.errors %}
+          <p class="text-danger">{{ error }}</p>
+        {% endfor %}   
+        {% endif %}  
+      </div>
+      
+    <div class="col-md-6 mb-3">
+      {{form.marks.label(class="form-label")}}
+      {{form.marks(class="form-control")}} 
+      {% if form.marks.errors %}
+      {% for error in form.marks.errors %}
+        <p class="text-danger">{{ error }}</p>
+      {% endfor %}   
+      {% endif %} 
+    </div>
+      
+  
+  <div class="col-md-6 mb-3">
+    {{form.negative_mark.label(class="form-label")}}
+    {{form.negative_mark(class="form-control")}} 
+    {% if form.negative_mark.errors %}
+    {% for error in form.negative_mark.errors %}
+    <p class="text-danger"> <p class="text-danger">{{ error }}</p></p>
+    {% endfor %}   
+    {% endif %} 
+    </div>
+ 
+      
+ <input name="Add" value="Add" type="submit" class="btn btn-primary">
+  </form>
+
+</div>
+<div class="col-md-6">
+    <h5 class="card-title fw-semibold mb-4">All tests</h5>
+    <form
+        class="row mb-3"
+        method="GET"
+      >
+        <div class="col-md-10 ">
+       {{searchform.search.label(class="form-label")}} 
+       {{searchform.search(class="form-control",value=search_keyword)}} 
+       {% if searchform.search.errors %}
+       {% for error in searchform.search.errors %}
+       <p class="text-danger"> <p class="text-danger">{{ error }}</p></p>
+       {% endfor %}   
+       {% endif %}   
+        </div>
+        <div class="my-2">
+          <input value="search" type="submit" class="btn btn-primary">
+        </div>
+      </form> 
+    <table class="table align-middle mb-3 bg-white">
+      <tbody>
+        {% for test in tests %}
+        <tr>
+          <td>
+            
+            <div class="row align-items-center ">
+              <p class="col-md-1 mt-md-4 mb-md-4 fw-bold  text-center">{{ loop.index + pagination.skip }}</p>
+             <span class="col-md-1 text-center"> <i class="ti ti-file-description" style="font-size: 35px;"></i></span>
+              
+              <div class="col-md-3 text-center">
+                <p class="fw-bolder  mb-1">{{test.test_name}}</p>
+                <p class="text-muted  mt-0">{{test.scheduled_on}}</p>
+              
+              </div>
+              <a href="{{url_for("admin_bp.add_questions")}}"  class="col-md-3 ms-md-6 text-center btn btn-primary fs-1">Add Questions</a>
+              <a href="{{url_for("admin_bp.delete_test",id=test.test_id)}}"  class="col-md-2 ms-md-6 text-center btn btn-danger fs-1">Delete</a>
+            </div>
+        
+          </td>
+        </tr>
+        
+        {% endfor %}  
+      </tbody>
+    </table>
+    <div class="mb-3">{{ pagination.info }}</div>
+    <div class="mb-3">{{ pagination.links }}</div>
+</div>
+</div>
+</div>
+{% endblock %}    

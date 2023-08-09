@@ -1,0 +1,196 @@
+{% extends "index.html" %} {% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <h5 class="card-title fw-semibold mb-4">Add User</h5>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+      <form class="row" action="{{url_for('admin_bp.add_user')}}" method="POST">
+        <div class="mb-3">
+          <label for="NameInputEmail1" class="form-label">Full Name</label>
+          {% if full_name %}
+          <input
+            name="full_name"
+            type="name"
+            class="form-control"
+            id=""
+            aria-describedby=""
+            value={{full_name}}
+          />
+          {% else %}
+          <input
+            name="full_name"
+            type="name"
+            class="form-control"
+            id=""
+            aria-describedby=""
+            value=""
+          />
+          {% endif%}
+        </div>
+        <div class="mb-3">
+          <label for="" class="form-label">User Name</label>
+          {% if full_name %}
+          <input
+            name="user_name"
+            type="name"
+            class="form-control"
+            id=""
+            aria-describedby=""
+            value={{user_name}}
+          />
+          {% else %}
+          <input
+            name="user_name"
+            type="name"
+            class="form-control"
+            id=""
+            aria-describedby=""
+            value=""
+          />
+          {% endif%}
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"
+            >Email address</label
+          >
+          {% if full_name %}
+          <input
+            name="email"
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            value={{email}}
+          />
+          {% else %}
+          <input
+          name="email"
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          value=""
+        />
+          {% endif%}
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input
+            name="password"
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+        <div class="mb-3">
+          <div class="mb-3">
+            <input
+              name="staff"
+              type="checkbox"
+              class="form-check-input"
+              id="exampleCheck1"
+            />
+            <label class="form-check-label" for="exampleCheck1">Staff</label>
+          </div>
+          <div class="mb-3">
+            <input
+              name="student"
+              type="checkbox"
+              class="form-check-input"
+              id="exampleCheck1"
+            />
+            <label class="form-check-label" for="exampleCheck1">Student</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h5 class="card-title fw-semibold mb-4">Users</h5>
+
+      <form
+        class="row mb-3"
+        method="POST"
+      >
+       {% if search != "" %}
+        <div class="col-md-10 ">
+          <input
+            name="search"
+            type="name"
+            class="form-control"
+            id=""
+            aria-describedby=""
+            value={{search}}
+          />
+          {% else %}
+          <div class="col-md-10 ">
+            <input
+              name="search"
+              type="name"
+              class="form-control"
+              id=""
+              aria-describedby=""
+              value=""
+            />
+       {% endif %}   
+        </div>
+        <div class="col-lg-2 ">
+          <button type="submit" class="btn btn-primary">search</button>
+        </div>
+      </form>
+     
+      <table class="table align-middle mb-3 bg-white">
+        <thead class="bg-light">
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>
+              
+              <div class="row align-items-center ">
+                <p class="col-md-1 mt-md-4 mb-md-4 fw-bold  text-center">{{ loop.index + pagination.skip }}</p>
+                <img
+                  src="{{ url_for('static', filename='/images/profile/user-1.jpg') }}"
+                  alt=""
+                  style="width: 70px; height: 45px"
+                  class="m-auto col-md-3 rounded-circle"
+                />
+                <div class="col-md-7  text-center">
+                  <p class="fw-bolder    mb-1">{{user.user_name}}</p>
+                  <p class="text-muted  mt-0">{{user.email}}</p>
+                
+                </div>
+                <a href="{{url_for("admin_bp.delete_user",id=user.user_id)}}"  class="col-md-2 ms-md-6 text-center btn btn-danger">Delete</a>
+              </div>
+          
+            </td>
+          </tr>
+          
+          {% endfor %}  
+        </tbody>
+      </table>
+      <div class="mb-3">{{ pagination.info }}</div>
+      <div class="mb-3">{{ pagination.links }}</div>
+    </div>
+  </div>
+
+  {% endblock %}
+</div>

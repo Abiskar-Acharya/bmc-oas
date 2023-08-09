@@ -1,0 +1,219 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-6">
+    <h5 class="card-title fw-semibold mb-4">Update Questions</h5>
+    <form method="GET"> 
+    <div class="row p-3 m-2 ">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <div class="col-md-4">
+        
+        <label for="" class="form-label">Test name</label>
+        <select name="test_name" value={{test_name}} class="form-control form-control-sm mb-1">
+            {% for test in all_tests%}
+            {% if test_name == test.test_name %}
+            <option selected>{{test.test_name}}</option>
+            {% else %}
+            <option>{{test.test_name}}</option>
+            {% endif %}
+            {% endfor%}
+          </select>
+          <input class="btn btn-primary btn-sm"type="submit" value="+">
+        </div>
+        
+        <div class="col-md-4"> 
+            <label for="" class="form-label">Type</label> 
+            <select name="type" class="form-control form-control-sm mb-1">
+              {% if question_type and question_type == "MCQ" %} 
+              <option selected>MCQ</option>
+              <option >NON-MCQ</option>
+              {% else %}
+              <option >MCQ</option>
+              <option selected>NON-MCQ</option>
+              {% endif %}
+              </select> 
+              <input class="btn btn-primary btn-sm"type="submit" value="+">
+              
+            </div>
+            <div class="col-md-4"> 
+                <label for="" class="form-label">Mark</label>
+                <input name="mark" class="form-control form-control-sm mb-2"type="number" value={{mark}}>
+            </div> 
+        <div class="col-md-12 mb-1">
+            <label for="" class="form-label form-label-sm">Question</label>
+             <textarea name="question_i"class="form-control form-control-sm mb-2" id="" >{{question_i}}</textarea>
+          </div>
+          {% if question_type and question_type == "MCQ" %}
+          <div class="col-md-12 mb-1">
+            <input name="a" class="form-control form-control-sm" type="text" value={{a}} placeholder="a">
+            <input name="b" class="form-control form-control-sm" type="text" value={{b}} placeholder="b">
+            <input name="c" class="form-control form-control-sm" type="text" value={{c}} placeholder="c">
+            <input name="d" class="form-control form-control-sm mb-2" type="text" value={{d}} placeholder="d">
+            <label for="" class="form-label form-label-sm">Correct Answer</label>
+            <select name="correct_answer" value={{test_name}} class="form-control form-control-sm mb-1">
+                 <option>a</option>
+                 <option>b</option>
+                 <option>c</option>
+                 <option>d</option>
+              </select>
+            <input class="btn btn-primary btn-sm" type="submit" value="+">
+        </div>
+          {% endif %}
+          <div class="col-md-3 mt-4"> 
+            <label for="" class="form-label">No. of blanks</label> 
+            <input name="no_of_blank" class="form-control form-control-sm" type="number" value={{no_of_blanks}}>               
+            </div>
+            <div class="col-md-3 mt-4">
+                <input name="Add_blank" class="btn btn-primary btn-sm mt-4" type="submit"  value="Add blank">
+            </div>
+            {% if no_of_blanks %}
+            <div class="row"> 
+            {% for key,val in blanks.items()%}
+            <div class="col-md-4 mt-4"> 
+                <label for="" class="form-label">{{key}}</label> 
+                <input name={{key}} class="form-control form-control-sm" type="text" value={{val.value}}>               
+            </div>
+            {% endfor%}
+        </div>
+            {% endif%}
+            <div class="col-md-3 mt-4 mb-3"> 
+                <label for="" class="form-label">No. of tables</label> 
+                <input name="no_of_tables" class="form-control form-control-sm" type="number" value={{no_of_tables}}>               
+                </div>
+                <div class="col-md-3 mt-4">
+                    <input name="Add_table" class="btn btn-primary btn-sm mt-4" type="submit"  value="Add table">
+                </div>
+       <div class="row"> 
+        {% if no_of_tables %} 
+            {% for table in tables%}    
+            <div class="col-md-4 mt-4 mb-4">
+                <label for="" class="form-label">{{table.table_row_name}}</label>
+                <input name={{table.table_row_name}} class="form-control form-control-sm" type="number" value={{table.table_rows}}>
+            </div>
+            <div class="col-md-4 mt-4 ">
+                <label for="" class="form-label">{{table.table_col_name}}</label>
+                <input name={{table.table_col_name}} class="form-control form-control-sm" type="number" value={{table.table_col}}>
+            </div>
+            <div class="col-md-4 mt-4">
+                <input name={{table.name}} class="btn btn-primary btn-sm mt-4" type="submit" value={{"Add"}}>
+            </div>
+                {% if table.table_rows and table.table_col  %}
+                        <table class="table border">
+                            <thead class="bg-light">
+                                <tr>
+                                    {% for col in range(table.table_col|int) %} 
+                                    {% set header_name = table.name+"_header_"+((col)|string) %}
+                                       <th>
+                                            <div class=""> 
+                                                {% if headers %}
+                                                {% set header_value = headers.get(header_name) %}
+                                                {% if header_value%}
+                                                   <input name={{header_name}} class="form-control form-control-sm" type="text" value={{header_value}} placeholder="Table headers">
+                                                {% else  %} 
+                                                <input name={{header_name}} class="form-control form-control-sm" type="text" value="" placeholder="Table headers"> 
+                                                {% endif %}            
+                                                {% else  %}
+                                                <input name={{header_name}} class="form-control form-control-sm" type="text" value="" placeholder="Table headers">        
+                                                {% endif %}     
+                                           
+                                                      
+                                             </div>
+                                        </th>
+                                     {% endfor%}
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in range(table.table_rows|int) %}  
+                                        <tr>
+                                        {% for col in range(table.table_col|int) %}
+                                        
+                                        <td class="">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    {% set table_data_name = table.name+"_"+(row|string)+(col|string) %}
+                                                        <input name={{table.name}} class="form-check-input" type="checkbox" name="" id="" value={{table.name}}>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    {% if table_datas.get(table_data_name) %}
+                                                    <input name={{table_data_name}} class="form-control form-control-sm" type="text" value={{table_datas.get(table_data_name)}} placeholder="Table values">  
+                                                    {% else %} 
+                                                    <input name={{table_data_name}} class="form-control form-control-sm" type="text" value="" placeholder="Table values">  
+                                                    {% endif %}   
+                                                </div>
+                                            </div>          
+                                        </td>
+                                        {% endfor%}
+                                        </tr>
+                            {% endfor%} 
+                            </tbody>
+                            </table>
+                            
+                {% endif%}
+            {% endfor%}
+        {% endif%}
+    </div>
+        
+    <input name="save_question" class="btn btn-primary btn-sm"type="submit" value="save">
+     </div>
+    </div>  
+   
+</form>
+
+<div class="col-md-6 p-3 border">
+    <h5 class="card-title fw-semibold mb-4">Preview</h5>
+    <div class="row d-flex bg-light">
+        {% for q in new_q%}
+       
+        {% if blanks.get(q)%}
+           <div class="w-auto m-1">
+            <input class="form-control form-control-sm"  type="text" name={{q}}>
+          </div> 
+        {% else %}
+       
+        <div class="fw-bold w-auto m-1">{{q|string}}</div>    
+       
+       {% endif %}
+
+
+     {%endfor%}
+    <!-- <p class="bg-white">{{question_i}}</p> -->
+    </div> 
+    {% if question_type and question_type == "MCQ" %}
+    <div class="row ">
+        <div class="col-md-3">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">
+                <p  class="ms-2">{{a}}</p>
+        </label>
+        </div>
+        <div class="col-md-3">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+  <label class="form-check-label" for="flexRadioDefault1">
+    <p  class="ms-2">{{b}}</p>
+   
+        </label>
+        </div>
+        <div class="col-md-3">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+  <label class="form-check-label" for="flexRadioDefault1">
+    <p  class="ms-2">{{c}}</p>
+        </label>
+        </div>
+        <div class="col-md-3">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+  <label class="form-check-label me-2" for="flexRadioDefault1">
+    <p class="ms-2">{{d}}</p>
+        </label>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+</div>
+</div>
+{% endblock %}    

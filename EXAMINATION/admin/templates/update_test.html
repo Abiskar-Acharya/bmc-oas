@@ -1,0 +1,141 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-6">
+    <h5 class="card-title fw-semibold mb-4">Update Questions</h5>
+    <div class="row">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+    <form method="POST"> 
+        <div class="col-md-12">
+       
+     <div class="row">       
+    <div class="col-md-3">        
+        <label for="" class="form-label">Test</label>
+        <select name="test" value={{test.}} class="form-select form-select-sm" aria-label=".form-select-sm example">
+            {% for test in tests %}
+            <option>{{test.test_name}}</option>
+            {% endfor %}
+          </select>
+    </div>
+    <div class="col-md-3"> 
+        <label for="" class="form-label">Correct answer</label>
+        <input
+        name="correct_ans"
+        type="text"
+        class="form-control"
+        id=""
+        aria-describedby=""
+        value=""
+      />
+    </div>
+    <div class="col-md-3"> 
+        <label for="" class="form-label">Mark</label>
+        <input
+        name="marks"
+        type="text"
+        class="form-control"
+        id=""
+        aria-describedby=""
+        value=""
+      /> 
+    </div>
+        <input type="submit" value="Add" class="col-md-3 mt-4 mb-0 btn btn-primary">
+        
+</div>
+    <div class="col-md-12">
+        <label for="exampleFormControlTextarea1">Question</label>
+        <textarea name="question" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div> 
+<div class="row">
+<div class="col-md-3"> 
+    <label for="" class="form-label">A</label>
+        <input
+        name="a"
+        type="text"
+        class="form-control"
+        id=""
+        aria-describedby=""
+        value=""
+      />
+</div>
+
+<div class="col-md-3"> 
+    <label for="" class="form-label">B</label>
+    <input
+    name="b"
+    type="text"
+    class="form-control"
+    id=""
+    aria-describedby=""
+    value=""
+  />
+</div>
+    <div class="col-md-3"> 
+        <label for="" class="form-label">C</label>
+        <input
+        name="c"
+        type="text"
+        class="form-control"
+        id=""
+        aria-describedby=""
+        value=""
+      />
+</div>
+    <div class="col-md-3"> 
+        <label for="" class="form-label">D</label>
+        <input
+        name="d"
+        type="name"
+        class="form-control"
+        id=""
+        aria-describedby=""
+        value=""
+      /> 
+</div>
+
+    
+</div>
+</div>
+</form>
+<div class="col-md-12">
+    <form
+        class="row mb-3"
+        method="GET"
+      >
+      
+        <div class="col-md-10 ">
+            <input
+            name="search"
+            type="text"
+            class="form-control"
+            id=""
+            aria-describedby=""
+            value={{search}}
+          />
+        </div>
+        <div class="my-2">
+          <input value="search" type="submit" class="btn btn-primary">
+        </div>
+      </form> 
+    <div class="row">
+    <!-- {% for question in questions %}
+    <div class="border md-3">
+     {{question.question}}
+    </div>
+    {% endfor %}  -->
+</div> 
+    </div>
+</div>
+</div>
+    <div class="col-md-6">
+    <!-- {% for question in test_questions %}
+     {{question.question}}
+    {% endfor %}   -->
+    </div>
+</div>
+</div>
+{% endblock %}    
